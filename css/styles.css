@@ -11427,7 +11427,9 @@ html {
 
 .callout {
   padding: 2rem 0;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("../assets/img/bg-callout.jpg");
+  height: auto;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%), url("../assets/img/bg-callout.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -11436,7 +11438,7 @@ html {
   font-size: 3.5rem;
   font-weight: 700;
   display: block;
-  max-width: 30rem;
+  max-width: 50rem;
 }
 
 footer.footer {
@@ -11492,7 +11494,7 @@ footer.footer .social-link:hover {
   margin: 0;
   padding: 0;
 }
-.masthead h1, .masthead h3, .masthead .text {
+.masthead h1, .masthead h3, .masthead .text, .callout h2, .callout .text {
     background-color: rgba(255,255,255,0.5)
 }
 @media (min-width: 992px) {
