@@ -11358,6 +11358,14 @@ html {
   list-style: none;
 }
 
+.text-white a {
+    color: #fff
+}
+.text-white a:hover {
+    text-decoration: none;
+    font-weight: bold;
+}
+
 .sidebar-nav li.sidebar-nav-item a {
   display: block;
   text-decoration: none;
