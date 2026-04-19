@@ -1,0 +1,22 @@
+{
+    "name": "Climate Solutions Scavenger Hunt",
+    "short_name": "Climate Hunt",
+    "description": "Find climate solutions around you and share what you discover!",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1D809F",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "assets/img/windmill.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/img/windmill.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

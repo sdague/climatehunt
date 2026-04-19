@@ -2,249 +2,96 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <meta name="author" content="" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:url" content="https://climatehunt.org/"/>
-        <meta name="twitter:url" content="https://climatehunt.org/"/>
-        <meta name="twitter:card" content="summary_large_image"/>
-        <meta name="twitter:site" content="@CCLMidHudson"/>
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://climatehunt.org/" />
+        <meta name="twitter:url" content="https://climatehunt.org/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@CCLMidHudson" />
         <meta name="description" content="Climate solutions scavenger hunt. Find climate solutions around you that you may never have noticed before." />
         <meta name="twitter:description" content="Climate solutions scavenger hunt. Find climate solutions around you that you may never have noticed before." />
         <meta property="og:description" content="Climate solutions scavenger hunt. Find climate solutions around you that you may never have noticed before." />
-        <meta property="og:image" content="https://climatehunt.org/assets/img/logo.png"/>
-        <meta name="twitter:image" content="https://climatehunt.org/assets/img/logo.png"/>
+        <meta property="og:image" content="https://climatehunt.org/assets/img/logo.png" />
+        <meta name="twitter:image" content="https://climatehunt.org/assets/img/logo.png" />
+        <meta name="theme-color" content="#1D809F" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <title>Climate Solutions Scavenger Hunt</title>
-        <!-- Favicon-->
         <link rel="canonical" href="https://climatehunt.org" />
         <link rel="shortcut icon" href="assets/img/windmill.png" />
         <link rel="apple-touch-icon" href="assets/img/windmill.png" />
-        <!-- Font Awesome icons (free version)-->
+        <link rel="manifest" href="manifest.json" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Simple line icons-->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css" rel="stylesheet" />
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap" rel="stylesheet" type="text/css" />
+        <link href="css/app.css" rel="stylesheet" />
     </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <a class="menu-toggle rounded" href="#"><i class="fas fa-bars"></i></a>
-        <nav id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"><a href="#page-top">Menu</a></li>
-                <li class="sidebar-nav-item"><a href="#page-top">Home</a></li>
-                <li class="sidebar-nav-item"><a href="#hunt">The Hunt</a></li>
-                <li class="sidebar-nav-item"><a href="#submit">Submit Findings</a></li>
-                <li class="sidebar-nav-item"><a href="#learn">Learn More</a></li>
-                <li class="sidebar-nav-item"><a href="#about">About Us</a></li>
-            </ul>
+    <body>
+        <nav class="app-nav">
+            <button class="tab-btn active" data-tab="today">Today</button>
+            <button class="tab-btn" data-tab="all">All Challenges</button>
+            <button class="tab-btn" data-tab="about">About</button>
         </nav>
-        <!-- Header-->
-        <header class="masthead align-items-center">
-                <div class="container px-4 px-lg-4 text-center mx-auto">
-                        <h1 class="mb-1 px-3">Climate Solutions Scavenger Hunt</h1>
-                        <h3 class="mb-5 px-3"><em>Discover climate solutions in your own back yard!</em></h3>
 
-                <p style="font-size: 1.5em; text-align: left" class="text px-3 mb-5">Climate solutions are everywhere, sometimes where we
-                least expect them. What if there was a fun way to learn more about the climate solutions in your own
-                back yard, and learn more about solutions you might not be familiar with.
-                <br><br>
-                Enter the climate solutions
-                scavenger hunt. In honor of <a href="https://www.hvclimatesolutionsweek.org/">Hudson Valley Climate Solutions Week</a> we've created this fun activity that
-                you can do alone or in teams to discover what's in the area.
-                    <div class="row mx-auto px-4">
-                        <div class="col-sm mb-4 px-4">
-                            <a class="btn btn-primary btn-xl btn-intro" href="#hunt">The Hunt</a>
-                        </div>
-                        <div class="col-sm mb-4 px-4 ">
-                            <a class="btn btn-primary btn-xl btn-intro" href="#submit">Submit Findings</a>
-                        </div>
-                    </div>
-                    <div class="row mx-auto px-4">
-                        <div class="col-sm mb-4 px-4">
-                            <a class="btn btn-primary btn-xl btn-intro" href="#learn">Learn More</a>
-                        </div>
-                        <div class="col-sm mb-4 px-4">
-                            <a class="btn btn-primary btn-xl btn-intro" href="#about">About Us</a>
-                        </div>
-                    </div>
+        <div id="panel-today" class="tab-panel active">
+            <div class="today-header">
+                <h1>Climate Solutions Hunt</h1>
+                <p>Discover climate solutions in your own back yard!</p>
             </div>
-        </header>
-        <!-- Callout-->
-        <section class="content-section bg-primary text-white" id="hunt">
-            <div class="container px-4 px-lg-4 text-center">
-                <div class="content-section-heading">
-                <h2 class="mx-auto mb-5">
-                    The Hunt
-                </h2>
-                </div>
-                <div class="row px-4">
-                    <p style="font-size: 1.5em; text-align: left" >The Hudson Valley Climate Solutions Scavenger hunt is provided as a
-                    convenient <a href="Climate Solutions Scavenger Hunt.pdf">two sided PDF for download</a>. Everything in the scavenger hunt is findable in the Hudson
-                    Valley, though some may require more effort than others. Many of the hard items are listed as bonus
-                    items.
-                </p>
-                        <object data="Climate Solutions Scavenger Hunt.pdf" type="application/pdf" width="100%" height="1000px">
-                            <p>In case the PDF doesn't render in your browser, you can <a href="Climate Solutions Scavenger Hunt.pdf">download it directly!</a></p>
-                          </object>
-                </div>
-                <!-- <div class="container px-4 mx-auto"> -->
-                <!--     <br/> -->
-                <!--     <a class="btn btn-primary btn-xl" href="https://startbootstrap.com/theme/stylish-portfolio/">Download Now!</a> -->
-                <!-- </div> -->
+            <div id="today-content">
+                <p class="text-muted" style="text-align:center; color:#6c757d;">Loading today's challenge...</p>
             </div>
-        </section>
-        <!-- Take Action -->
-        <section class="callout" id="submit">
-            <div class="container px-4 px-lg-5 text-center" style="max-width: 640px">
-                <div class="content-section-heading text-center">
-                    <h2 class="mx-auto mb-5">
-                        Submit Findings
-                    </h2>
-                    <div class="text">
-                    <p style="font-size: 1.5em; text-align: left" class="px-3 mb-5">There are many ways to experience the hunt, do what works best for you!
-                        <ul>
-                        <li style="font-size: 1.5em; text-align: left">Just do the hunt on your own or with friends and judge your own answers</li>
-                        <li style="font-size: 1.5em; text-align: left">Take photos and post to your favorite social media with <strong>#hvclimatehunt</strong>.
-                        </ul>
-                    <p style="font-size: 1.5em; text-align: left" class="px-3 mb-5">
-                        During the Hudson Valley Climate Week we'll be
-                        monitoring <a href="https://www.instagram.com/mid_hudson_ccl/">Instagram</a>, <a href="https://bsky.app/profile/sdague.bsky.social">Bluesky</a>,
-                        and <a href="https://spore.social/@sdague">Mastodon</a>
-                        for posts and amplifying them. And feel free
-                        to reach out to any of the listed accounts if
-                        you need to ask questions or are looking for
-                        hints.
-                    </div>
-            </div>
-        </section>
-        <!-- Services-->
-        <section class="content-section bg-primary text-white" id="learn">
-            <div class="container px-4 px-lg-5" style="max-width: 640px ">
-                <div class="content-section-heading text-center">
-                    <h2 class="mb-5">Learn More</h2>
-                </div>
-                <div class="row gx-4 gx-lg-5" style="padding-bottom: 3em">
-                    <div class="text" style="font-size: 1.5em;">
-                    <p>Want to learn more about climate solutions? There are many great resources available:</p>
-                    <ul>
-                        <li><a href="https://www.drawdown.org/">Project
-                        Drawdown</a>: the top 100 climate solutions,
-                        ranked by impact.
-                        <li><a href="https://citizensclimate.org">Citizens'
-                        Climate Lobby</a>: join your local chapter to
-                        learn how to engage elected representatives to
-                        pass climate solutions.
-                    </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- <\!-- Portfolio-\-> -->
-        <!-- <section class="content-section" id="actions"> -->
-        <!--     <div class="container px-4 px-lg-5"> -->
-        <!--         <div class="content-section-heading text-center"> -->
-        <!--             <h3 class="text-secondary mb-0">Actions</h3> -->
-        <!--             <h2 class="mb-5">Recent Actions</h2> -->
-        <!--         </div> -->
-        <!--         <div class="row gx-0"> -->
-        <!--             <div class="col-lg-6"> -->
-        <!--                 <a class="portfolio-item" href="#!"> -->
-        <!--                     <div class="caption"> -->
-        <!--                         <div class="caption-content"> -->
-        <!--                             <div class="h2">Stationary</div> -->
-        <!--                             <p class="mb-0">A yellow pencil with envelopes on a clean, blue backdrop!</p> -->
-        <!--                         </div> -->
-        <!--                     </div> -->
-        <!--                     <img class="img-fluid" src="assets/img/portfolio-1.jpg" alt="..." /> -->
-        <!--                 </a> -->
-        <!--             </div> -->
-        <!--             <div class="col-lg-6"> -->
-        <!--                 <a class="portfolio-item" href="#!"> -->
-        <!--                     <div class="caption"> -->
-        <!--                         <div class="caption-content"> -->
-        <!--                             <div class="h2">Ice Cream</div> -->
-        <!--                             <p class="mb-0">A dark blue background with a colored pencil, a clip, and a tiny ice cream cone!</p> -->
-        <!--                         </div> -->
-        <!--                     </div> -->
-        <!--                     <img class="img-fluid" src="assets/img/portfolio-2.jpg" alt="..." /> -->
-        <!--                 </a> -->
-        <!--             </div> -->
-        <!--             <div class="col-lg-6"> -->
-        <!--                 <a class="portfolio-item" href="#!"> -->
-        <!--                     <div class="caption"> -->
-        <!--                         <div class="caption-content"> -->
-        <!--                             <div class="h2">Strawberries</div> -->
-        <!--                             <p class="mb-0">Strawberries are such a tasty snack, especially with a little sugar on top!</p> -->
-        <!--                         </div> -->
-        <!--                     </div> -->
-        <!--                     <img class="img-fluid" src="assets/img/portfolio-3.jpg" alt="..." /> -->
-        <!--                 </a> -->
-        <!--             </div> -->
-        <!--             <div class="col-lg-6"> -->
-        <!--                 <a class="portfolio-item" href="#!"> -->
-        <!--                     <div class="caption"> -->
-        <!--                         <div class="caption-content"> -->
-        <!--                             <div class="h2">Workspace</div> -->
-        <!--                             <p class="mb-0">A yellow workspace with some scissors, pencils, and other objects.</p> -->
-        <!--                         </div> -->
-        <!--                     </div> -->
-        <!--                     <img class="img-fluid" src="assets/img/portfolio-4.jpg" alt="..." /> -->
-        <!--                 </a> -->
-        <!--             </div> -->
-        <!--         </div> -->
-        <!--     </div> -->
-        <!-- </section> -->
-        <!-- Call to Action-->
+        </div>
 
-            <section class="content-section bg-light" id="about" >
-                <div class="container px-4 px-lg-5" style="max-width: 640px">
-                    <div class="content-section-heading text-center">
-                        <h2 class="mb-5">About Us</h2>
-                    </div>
-                    <div class="row gx-4 gx-lg-5" style="padding-bottom: 3em; font-size: 1.5em;">
-                        <p>The <strong>Hudson Valley Climate Solutions
-                                Scavenger Hunt</strong> was conceived of and developed
-                            by Sean Dague and Arianna Valentini as part of
-                            our volunter work with <a href="https://citizensclimate.org">Citizens' Climate
-                                Lobby</a>. This seems like too fun of an idea not to share!
+        <div id="panel-all" class="tab-panel">
+            <div class="today-header">
+                <h1>All Challenges</h1>
+                <p>Find them all and share what you discover!</p>
+            </div>
+            <div id="checklist-content">
+                <p class="text-muted" style="text-align:center; color:#6c757d;">Loading challenges...</p>
+            </div>
+        </div>
 
-                        <p>
-                            We're hoping that others would like to
-                            create their own climate solutions hunts,
-                            specific to their region. We'd love
-                            to <a href="mailto:sean@climatehunt.org">hear
-                            about them</a> and help promote them in
-                            any way we can.
-                    </div>
-                </div>
-            </section>
+        <div id="panel-about" class="tab-panel">
+            <div class="about-section">
+                <h2>About the Hunt</h2>
+                <p>Climate solutions are everywhere, sometimes where we least expect them. What if there was a fun way to learn more about the climate solutions in your own back yard?</p>
+                <p>The Climate Solutions Scavenger Hunt is a fun activity you can do alone or in teams to discover what's in the area. Take photos of climate solutions you find and share them on social media with <strong>#climatehunt</strong>.</p>
 
-        <!-- Footer-->
-        <footer class="footer text-center">
-            <div class="container px-4 px-lg-5">
-                <ul class="list-inline mb-5">
-                    <li class="list-inline-item">
-                        <a class="social-link rounded-circle text-white mr-3" href="https://facebook.com/cclny18"><i class="icon-social-facebook"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="social-link rounded-circle text-white mr-3" href="https://www.instagram.com/mid_hudson_ccl/"><i class="icon-social-instagram"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="social-link rounded-circle text-white mr-3" href="mailto:sean@climatehunt.org"><i class="icon-envelope-open"></i></a>
-                    </li>
+                <h2>How to Participate</h2>
+                <ul>
+                    <li>Check back each day for a new featured challenge</li>
+                    <li>Browse the full list on the "All Challenges" tab</li>
+                    <li>Take photos and share to your favorite social media</li>
+                    <li>Use <strong>#climatehunt</strong> so others can find your posts</li>
                 </ul>
-                <p class="text-muted small mb-0">Copyright &copy; CCL Mid Hudson 2023</p>
+                <p>We're watching on <a href="https://www.instagram.com/mid_hudson_ccl/">Instagram</a>, <a href="https://bsky.app/profile/sdague.bsky.social">Bluesky</a>, and <a href="https://spore.social/@sdague">Mastodon</a> for posts and amplifying them!</p>
+
+                <h2>Learn More</h2>
+                <ul>
+                    <li><a href="https://www.drawdown.org/">Project Drawdown</a>: the top 100 climate solutions, ranked by impact.</li>
+                    <li><a href="https://citizensclimate.org">Citizens' Climate Lobby</a>: join your local chapter to learn how to engage elected representatives to pass climate solutions.</li>
+                </ul>
+
+                <h2>About Us</h2>
+                <p>The <strong>Climate Solutions Scavenger Hunt</strong> was conceived of and developed by Sean Dague and Arianna Valentini as part of our volunteer work with <a href="https://citizensclimate.org">Citizens' Climate Lobby</a>. This seems like too fun of an idea not to share!</p>
+                <p>We're hoping that others would like to create their own climate solutions hunts, specific to their region. We'd love to <a href="mailto:sean@climatehunt.org">hear about them</a> and help promote them in any way we can.</p>
+
+                <h2>Download PDF</h2>
+                <p>Want a printable version? <a href="Climate Solutions Scavenger Hunt.pdf">Download the PDF checklist</a>.</p>
+
+                <div style="text-align:center; padding: 2rem 0; color: #6c757d; font-size: 0.85rem;">
+                    <p>&copy; CCL Mid Hudson 2023&ndash;2026</p>
+                    <div style="display:flex; justify-content:center; gap:1rem;">
+                        <a href="https://facebook.com/cclny18" style="color:#1D809F;"><i class="fab fa-facebook" style="font-size:1.5rem;"></i></a>
+                        <a href="https://www.instagram.com/mid_hudson_ccl/" style="color:#1D809F;"><i class="fab fa-instagram" style="font-size:1.5rem;"></i></a>
+                        <a href="mailto:sean@climatehunt.org" style="color:#1D809F;"><i class="fas fa-envelope" style="font-size:1.5rem;"></i></a>
+                    </div>
+                </div>
             </div>
-        </footer>
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        </div>
+
+        <script src="js/app.js"></script>
     </body>
 </html>
