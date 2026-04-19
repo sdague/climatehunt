@@ -390,6 +390,18 @@
                 switchTab(btn.dataset.tab);
             });
         });
+
+        var resetBtn = document.getElementById('btn-reset');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function () {
+                if (confirm('Are you sure? This will erase all your progress and photos.')) {
+                    progress = { completedItems: [], photos: {} };
+                    saveProgress();
+                    render();
+                    showToast('Progress reset!');
+                }
+            });
+        }
     }
 
     async function fetchChallenges() {
