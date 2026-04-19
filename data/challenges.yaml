@@ -7,45 +7,30 @@ categories:
       - id: ev
         title: An EV
         description: >
-          Electric vehicles (EVs) are a key solution to reducing transportation emissions, which
-          are the largest source of greenhouse gas emissions in the US. EVs produce zero tailpipe
-          emissions and can be powered by renewable energy, making them a crucial part of the
-          transition to a cleaner transportation system.
         bonus: false
       - id: non-tesla-ev
         title: A Non-Tesla EV
         description: >
-          While Tesla is the most well-known EV manufacturer, there are many other companies
-          producing electric vehicles, including Ford, General Motors, Nissan, and Volkswagen. The
-          growing variety of EVs on the market is making it easier for more people to switch to
-          electric transportation.
         hint: Check out local grocery store parking lots
         bonus: false
       - id: non-tesla-ev-2
         title: A 2nd Non-Tesla EV
         description: >
-          While Tesla is the most well-known EV manufacturer, there are many other companies
-          producing electric vehicles, including Ford, General Motors, Nissan, and Volkswagen. The
-          growing variety of EVs on the market is making it easier for more people to switch to
-          electric transportation.
         hint: Check out local grocery store parking lots
         bonus: false
       - id: bus
         title: A Bus
         description: >
-          Buses are a critical part of a sustainable transportation system, as they can move many
-          people at once and reduce the number of individual cars on the road. Many bus systems are
-          transitioning to electric or hybrid buses, which produce fewer emissions and improve air
-          quality in communities.
+          The humble bus is one of the least celebrated climate solutions, but buses carry so many more
+          people than cars, and their routes can be adapted as population centers shift. Every day millions
+          of school children in the US take a bus to school, and it massively reduces car traffic.
         hint: "Bus schedules per county - https://www.hudsonvalleysojourner.com/hudson-valley-bus-service-maps-schedule/"
         bonus: false
       - id: train
         title: A Train
         description: >
-          Trains are an efficient and low-emission mode of transportation, especially for
-          long-distance travel. Many train systems are powered by electricity, which can be
-          generated from renewable sources, making them a key part of a sustainable transportation
-          network.
+          Who doesn't love trains? Only those with dead hearts. Did you know that in the early 20th century their
+          were electric intercity trolleys all over America?
         bonus: false
       - id: e-bike
         title: An E-Bike
