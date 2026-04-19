@@ -153,13 +153,8 @@
         });
     }
 
-    function handlePhoto(itemId) {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = async function () {
-            if (!input.files || !input.files[0]) return;
-            const file = input.files[0];
+    function processPhoto(itemId, file) {
+        return async function () {
             const shareSize = await resizeImage(file, MAX_SHARE_DIM);
             const thumb = await resizeImage(file, MAX_THUMB_DIM);
             photoBlobs[itemId] = shareSize.blob;
@@ -169,6 +164,28 @@
             }
             saveProgress();
             render();
+        };
+    }
+
+    function handleCamera(itemId) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.capture = 'environment';
+        input.onchange = async function () {
+            if (!input.files || !input.files[0]) return;
+            await processPhoto(itemId, input.files[0])();
+        };
+        input.click();
+    }
+
+    function handleGallery(itemId) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async function () {
+            if (!input.files || !input.files[0]) return;
+            await processPhoto(itemId, input.files[0])();
         };
         input.click();
     }
@@ -270,7 +287,10 @@
                 (photo ? '<div class="photo-preview"><img src="' + photo + '" alt="Your photo"></div>' : '') +
                 '<div class="challenge-actions">' +
                     '<button class="btn btn-camera" data-item="' + challenge.id + '">' +
-                        '<i class="fas fa-camera"></i> Photo' +
+                        '<i class="fas fa-camera"></i> Camera' +
+                    '</button>' +
+                    '<button class="btn btn-gallery" data-item="' + challenge.id + '">' +
+                        '<i class="fas fa-images"></i> Gallery' +
                     '</button>' +
                     '<button class="btn btn-save" data-item="' + challenge.id + '"' + (photo ? '' : ' disabled') + '>' +
                         '<i class="fas fa-download"></i> Save' +
@@ -348,6 +368,9 @@
                         '<button class="btn-sm btn-camera-sm" data-item="' + item.id + '">' +
                             '<i class="fas fa-camera"></i>' +
                         '</button>' +
+                        '<button class="btn-sm btn-gallery-sm" data-item="' + item.id + '">' +
+                            '<i class="fas fa-images"></i>' +
+                        '</button>' +
                         '<button class="btn-sm btn-save-sm" data-item="' + item.id + '"' + (photo ? '' : ' disabled') + '>' +
                             '<i class="fas fa-download"></i>' +
                         '</button>' +
@@ -394,7 +417,9 @@
             if (target.disabled) return;
 
             if (target.classList.contains('btn-camera') || target.classList.contains('btn-camera-sm')) {
-                handlePhoto(itemId);
+                handleCamera(itemId);
+            } else if (target.classList.contains('btn-gallery') || target.classList.contains('btn-gallery-sm')) {
+                handleGallery(itemId);
             } else if (target.classList.contains('btn-save') || target.classList.contains('btn-save-sm')) {
                 handleSavePhoto(itemId);
             } else if (target.classList.contains('btn-share') || target.classList.contains('btn-share-sm')) {

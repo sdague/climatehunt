@@ -220,6 +220,18 @@ body {
 
 .btn-camera:hover { background: var(--ch-primary-dark); }
 
+.btn-gallery {
+    background: #6f42c1;
+    color: #fff;
+}
+
+.btn-gallery:hover { background: #5a32a3; }
+
+.btn-gallery-sm:hover {
+    color: #6f42c1;
+    border-color: #6f42c1;
+}
+
 .btn-share {
     background: var(--ch-secondary);
     color: var(--ch-dark);
