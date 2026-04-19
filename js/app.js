@@ -292,11 +292,11 @@
                     '<button class="btn btn-gallery" data-item="' + challenge.id + '">' +
                         '<i class="fas fa-images"></i> Gallery' +
                     '</button>' +
-                    '<button class="btn btn-save" data-item="' + challenge.id + '"' + (photo ? '' : ' disabled') + '>' +
-                        '<i class="fas fa-download"></i> Save' +
-                    '</button>' +
                     '<button class="btn btn-share" data-item="' + challenge.id + '">' +
                         '<i class="fas fa-share-nodes"></i> Share' +
+                    '</button>' +
+                    '<button class="btn btn-save" data-item="' + challenge.id + '"' + (photo ? '' : ' disabled') + '>' +
+                        '<i class="fas fa-download"></i> Save' +
                     '</button>' +
                     '<button class="btn ' + (isComplete ? 'btn-completed' : 'btn-complete') + '" data-item="' + challenge.id + '">' +
                         '<i class="fas ' + (isComplete ? 'fa-check-circle' : 'fa-circle') + '"></i> ' +
@@ -371,11 +371,11 @@
                         '<button class="btn-sm btn-gallery-sm" data-item="' + item.id + '">' +
                             '<i class="fas fa-images"></i>' +
                         '</button>' +
-                        '<button class="btn-sm btn-save-sm" data-item="' + item.id + '"' + (photo ? '' : ' disabled') + '>' +
-                            '<i class="fas fa-download"></i>' +
-                        '</button>' +
                         '<button class="btn-sm btn-share-sm" data-item="' + item.id + '">' +
                             '<i class="fas fa-share-nodes"></i>' +
+                        '</button>' +
+                        '<button class="btn-sm btn-save-sm" data-item="' + item.id + '"' + (photo ? '' : ' disabled') + '>' +
+                            '<i class="fas fa-download"></i>' +
                         '</button>' +
                     '</div>' +
                 '</div>';
