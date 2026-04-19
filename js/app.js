@@ -9,6 +9,7 @@
     let challengeData = null;
     let progress = loadProgress();
     let currentTab = 'today';
+    const photoBlobs = {};
 
     function loadProgress() {
         try {
@@ -160,7 +161,9 @@
         input.onchange = async function () {
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
+            const shareSize = await resizeImage(file, MAX_SHARE_DIM);
             const thumb = await resizeImage(file, MAX_THUMB_DIM);
+            photoBlobs[itemId] = shareSize.blob;
             progress.photos[itemId] = thumb.dataUrl;
             if (progress.completedItems.indexOf(itemId) < 0) {
                 progress.completedItems.push(itemId);
@@ -179,30 +182,37 @@
             message + ' ' + hashtag;
     }
 
+    async function getShareBlob(itemId) {
+        if (photoBlobs[itemId]) return photoBlobs[itemId];
+        if (!progress.photos[itemId]) return null;
+        try {
+            var resp = await fetch(progress.photos[itemId]);
+            var blob = await resp.blob();
+            var resized = await resizeImage(
+                new File([blob], 'photo.jpg', { type: 'image/jpeg' }),
+                MAX_SHARE_DIM
+            );
+            photoBlobs[itemId] = resized.blob;
+            return resized.blob;
+        } catch (e) {
+            return null;
+        }
+    }
+
     async function handleShare(itemId) {
         const item = findItemById(itemId);
         if (!item) return;
 
         const text = buildShareText(item);
+        const blob = await getShareBlob(itemId);
+        if (!blob) return;
 
-        if (progress.photos[itemId]) {
+        const file = new File([blob], 'climate-hunt.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
-                const resp = await fetch(progress.photos[itemId]);
-                const blob = await resp.blob();
-                const shareBlob = await resizeImage(
-                    new File([blob], 'climate-hunt.jpg', { type: 'image/jpeg' }),
-                    MAX_SHARE_DIM
-                );
-                const file = new File([shareBlob.blob], 'climate-hunt.jpg', { type: 'image/jpeg' });
-
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: item.title + ' — Climate Solutions Hunt',
-                        text: text,
-                        files: [file]
-                    });
-                    return;
-                }
+                await navigator.share({ files: [file], text: text });
+                return;
             } catch (e) {
                 if (e.name === 'AbortError') return;
             }
@@ -210,10 +220,7 @@
 
         if (navigator.share) {
             try {
-                await navigator.share({
-                    title: item.title + ' — Climate Solutions Hunt',
-                    text: text
-                });
+                await navigator.share({ text: text });
                 return;
             } catch (e) {
                 if (e.name === 'AbortError') return;
