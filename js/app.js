@@ -215,8 +215,17 @@
         const text = buildShareText(item);
 
         if (navigator.share) {
+            var shareData = { text: text };
+
+            if (photoBlobs[itemId]) {
+                var file = new File([photoBlobs[itemId]], 'climate-hunt.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    shareData.files = [file];
+                }
+            }
+
             try {
-                await navigator.share({ text: text });
+                await navigator.share(shareData);
             } catch (e) {
                 if (e.name === 'AbortError') return;
             }
