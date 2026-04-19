@@ -157,7 +157,6 @@
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
-        input.capture = 'environment';
         input.onchange = async function () {
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
@@ -199,13 +198,14 @@
         }
     }
 
-    function savePhoto(itemId) {
+    function handleSavePhoto(itemId) {
         var dataUrl = progress.photos[itemId];
         if (!dataUrl) return;
         var a = document.createElement('a');
         a.href = dataUrl;
         a.download = 'climate-hunt-' + itemId + '.jpg';
         a.click();
+        showToast('Photo saved!');
     }
 
     async function handleShare(itemId) {
@@ -214,42 +214,18 @@
 
         const text = buildShareText(item);
 
-        var fileShared = false;
-        var blob = await getShareBlob(itemId);
-        if (blob) {
-            var file = new File([blob], 'climate-hunt.jpg', { type: 'image/jpeg', lastModified: Date.now() });
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({ files: [file], text: text });
-                    fileShared = true;
-                } catch (e) {
-                    if (e.name === 'AbortError') return;
-                }
-            }
-        }
-
-        if (!fileShared && navigator.share) {
+        if (navigator.share) {
             try {
                 await navigator.share({ text: text });
             } catch (e) {
                 if (e.name === 'AbortError') return;
             }
-            if (progress.photos[itemId]) {
-                showToast('Photo saved — attach it to your post!');
-                savePhoto(itemId);
-            }
-            return;
-        }
-
-        if (!fileShared) {
+        } else {
             try {
                 await navigator.clipboard.writeText(text);
                 showToast('Share text copied to clipboard!');
             } catch (e) {
                 showToast('Could not share — copy this: ' + text);
-            }
-            if (progress.photos[itemId]) {
-                savePhoto(itemId);
             }
         }
     }
@@ -285,9 +261,12 @@
                 (photo ? '<div class="photo-preview"><img src="' + photo + '" alt="Your photo"></div>' : '') +
                 '<div class="challenge-actions">' +
                     '<button class="btn btn-camera" data-item="' + challenge.id + '">' +
-                        '<i class="fas fa-camera"></i> Take Photo' +
+                        '<i class="fas fa-camera"></i> Photo' +
                     '</button>' +
-                    '<button class="btn btn-share" data-item="' + challenge.id + '"' + (photo ? '' : ' disabled') + '>' +
+                    '<button class="btn btn-save" data-item="' + challenge.id + '"' + (photo ? '' : ' disabled') + '>' +
+                        '<i class="fas fa-download"></i> Save' +
+                    '</button>' +
+                    '<button class="btn btn-share" data-item="' + challenge.id + '">' +
                         '<i class="fas fa-share-nodes"></i> Share' +
                     '</button>' +
                     '<button class="btn ' + (isComplete ? 'btn-completed' : 'btn-complete') + '" data-item="' + challenge.id + '">' +
@@ -360,7 +339,10 @@
                         '<button class="btn-sm btn-camera-sm" data-item="' + item.id + '">' +
                             '<i class="fas fa-camera"></i>' +
                         '</button>' +
-                        '<button class="btn-sm btn-share-sm" data-item="' + item.id + '"' + (photo ? '' : ' disabled') + '>' +
+                        '<button class="btn-sm btn-save-sm" data-item="' + item.id + '"' + (photo ? '' : ' disabled') + '>' +
+                            '<i class="fas fa-download"></i>' +
+                        '</button>' +
+                        '<button class="btn-sm btn-share-sm" data-item="' + item.id + '">' +
                             '<i class="fas fa-share-nodes"></i>' +
                         '</button>' +
                     '</div>' +
@@ -404,6 +386,8 @@
 
             if (target.classList.contains('btn-camera') || target.classList.contains('btn-camera-sm')) {
                 handlePhoto(itemId);
+            } else if (target.classList.contains('btn-save') || target.classList.contains('btn-save-sm')) {
+                handleSavePhoto(itemId);
             } else if (target.classList.contains('btn-share') || target.classList.contains('btn-share-sm')) {
                 handleShare(itemId);
             } else if (target.classList.contains('btn-complete') || target.classList.contains('btn-completed') || target.classList.contains('btn-check-toggle')) {
@@ -443,9 +427,50 @@
         }
     }
 
+    function isChromeMobile() {
+        var ua = navigator.userAgent;
+        return /Android/.test(ua) && /Chrome\//.test(ua) && !/Firefox/.test(ua);
+    }
+
+    function showBrowserWarning() {
+        if (isChromeMobile()) return;
+        if (!/Android|iPhone|iPad|iPod/.test(navigator.userAgent)) return;
+        if (sessionStorage.getItem('climatehunt-browser-warning-dismissed')) return;
+
+        var banner = document.createElement('div');
+        banner.id = 'browser-warning';
+        banner.className = 'browser-warning';
+        banner.innerHTML =
+            '<div class="browser-warning-content">' +
+                '<strong>Best on Chrome for Android</strong>' +
+                '<p>This app works best in Chrome on Android. ' +
+                'In other browsers, sharing and photo features may be limited. ' +
+                'See the <a href="#" class="warning-about-link">About tab</a> for details.</p>' +
+                '<button class="browser-warning-dismiss" id="dismiss-warning">' +
+                    '<i class="fas fa-times"></i>' +
+                '</button>' +
+            '</div>';
+        document.body.insertBefore(banner, document.body.firstChild);
+
+        document.getElementById('dismiss-warning').addEventListener('click', function () {
+            banner.remove();
+            sessionStorage.setItem('climatehunt-browser-warning-dismissed', '1');
+        });
+
+        banner.querySelector('.warning-about-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            banner.remove();
+            sessionStorage.setItem('climatehunt-browser-warning-dismissed', '1');
+            switchTab('about');
+            var compat = document.getElementById('browser-compat');
+            if (compat) compat.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
     function init() {
         setupEventDelegation();
         fetchChallenges();
+        showBrowserWarning();
         setInterval(fetchChallenges, REFRESH_INTERVAL);
 
         if ('serviceWorker' in navigator) {
