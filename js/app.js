@@ -199,39 +199,58 @@
         }
     }
 
+    function savePhoto(itemId) {
+        var dataUrl = progress.photos[itemId];
+        if (!dataUrl) return;
+        var a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'climate-hunt-' + itemId + '.jpg';
+        a.click();
+    }
+
     async function handleShare(itemId) {
         const item = findItemById(itemId);
         if (!item) return;
 
         const text = buildShareText(item);
-        const blob = await getShareBlob(itemId);
-        if (!blob) return;
 
-        const file = new File([blob], 'climate-hunt.jpg', { type: 'image/jpeg', lastModified: Date.now() });
-
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-                await navigator.share({ files: [file], text: text });
-                return;
-            } catch (e) {
-                if (e.name === 'AbortError') return;
+        var fileShared = false;
+        var blob = await getShareBlob(itemId);
+        if (blob) {
+            var file = new File([blob], 'climate-hunt.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({ files: [file], text: text });
+                    fileShared = true;
+                } catch (e) {
+                    if (e.name === 'AbortError') return;
+                }
             }
         }
 
-        if (navigator.share) {
+        if (!fileShared && navigator.share) {
             try {
                 await navigator.share({ text: text });
-                return;
             } catch (e) {
                 if (e.name === 'AbortError') return;
             }
+            if (progress.photos[itemId]) {
+                showToast('Photo saved — attach it to your post!');
+                savePhoto(itemId);
+            }
+            return;
         }
 
-        try {
-            await navigator.clipboard.writeText(text);
-            showToast('Share text copied to clipboard!');
-        } catch (e) {
-            showToast('Could not share — copy this: ' + text);
+        if (!fileShared) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('Share text copied to clipboard!');
+            } catch (e) {
+                showToast('Could not share — copy this: ' + text);
+            }
+            if (progress.photos[itemId]) {
+                savePhoto(itemId);
+            }
         }
     }
 
