@@ -1,8 +1,9 @@
-var CACHE_NAME = 'climatehunt-v1';
+var CACHE_NAME = 'climatehunt-v2';
 var SHELL_URLS = [
     '/',
     '/index.html',
     '/css/app.css',
+    '/js/js-yaml.min.js',
     '/js/app.js',
     '/manifest.json',
     '/assets/img/windmill.png'
@@ -32,7 +33,7 @@ self.addEventListener('activate', function (event) {
 self.addEventListener('fetch', function (event) {
     var url = new URL(event.request.url);
 
-    if (url.pathname.endsWith('challenges.json')) {
+    if (url.pathname.endsWith('challenges.yaml')) {
         event.respondWith(
             fetch(event.request).then(function (response) {
                 var clone = response.clone();

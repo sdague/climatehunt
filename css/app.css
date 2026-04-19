@@ -161,6 +161,13 @@ body {
     color: var(--ch-dark);
 }
 
+.challenge-description {
+    color: var(--ch-dark);
+    font-size: 0.95rem;
+    margin: 0.5rem 0 0.75rem;
+    line-height: 1.6;
+}
+
 .challenge-hint {
     color: var(--ch-gray);
     font-size: 0.9rem;
@@ -351,6 +358,13 @@ body {
     font-weight: 600;
 }
 
+.checklist-description {
+    color: #495057;
+    font-size: 0.85rem;
+    margin: 0.35rem 0 0.25rem 2rem;
+    line-height: 1.5;
+}
+
 .checklist-hint {
     color: var(--ch-gray);
     font-size: 0.8rem;
@@ -423,6 +437,32 @@ body {
 
 .about-section li {
     margin-bottom: 0.5rem;
+}
+
+/* --- Skip Button --- */
+.skip-section {
+    text-align: center;
+    margin: 0.5rem 0 1rem;
+}
+
+.btn-skip {
+    background: none;
+    border: 1px solid var(--ch-gray);
+    color: var(--ch-gray);
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-skip:hover {
+    color: var(--ch-dark);
+    border-color: var(--ch-dark);
 }
 
 /* --- Reset Button --- */

@@ -18,11 +18,13 @@
                 const parsed = JSON.parse(raw);
                 return {
                     completedItems: parsed.completedItems || [],
-                    photos: parsed.photos || {}
+                    photos: parsed.photos || {},
+                    skippedItems: parsed.skippedItems || [],
+                    currentChallengeId: parsed.currentChallengeId || null
                 };
             }
         } catch (e) { /* ignore corrupt data */ }
-        return { completedItems: [], photos: {} };
+        return { completedItems: [], photos: {}, skippedItems: [], currentChallengeId: null };
     }
 
     function saveProgress() {
@@ -39,46 +41,50 @@
         }
     }
 
-    function todayString() {
-        const d = new Date();
-        return d.getFullYear() + '-' +
-            String(d.getMonth() + 1).padStart(2, '0') + '-' +
-            String(d.getDate()).padStart(2, '0');
+    function getIncompleteItems() {
+        return getAllItems().filter(function (item) {
+            return progress.completedItems.indexOf(item.id) < 0;
+        });
     }
 
-    function getScheduledChallenges() {
-        if (!challengeData || !challengeData.schedule) return { current: null, next: null };
-        const today = todayString();
-        const sorted = challengeData.schedule.slice().sort(function (a, b) {
-            return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
+    function pickRandomChallenge() {
+        var available = getIncompleteItems().filter(function (item) {
+            return progress.skippedItems.indexOf(item.id) < 0;
         });
+        if (available.length === 0) {
+            available = getIncompleteItems();
+            progress.skippedItems = [];
+        }
+        if (available.length === 0) return null;
+        var idx = Math.floor(Math.random() * available.length);
+        return available[idx];
+    }
 
-        var currentEntry = null;
-        var nextEntry = null;
-
-        for (var i = 0; i < sorted.length; i++) {
-            if (sorted[i].date === today) {
-                currentEntry = sorted[i];
-                if (i + 1 < sorted.length) nextEntry = sorted[i + 1];
-                break;
-            }
-            if (sorted[i].date < today) {
-                currentEntry = sorted[i];
-                if (i + 1 < sorted.length && sorted[i + 1].date <= today) {
-                    continue;
-                }
-                if (i + 1 < sorted.length) nextEntry = sorted[i + 1];
+    function getCurrentChallenge() {
+        if (!challengeData) return null;
+        if (progress.currentChallengeId) {
+            var isDone = progress.completedItems.indexOf(progress.currentChallengeId) >= 0;
+            if (!isDone) {
+                return findItemById(progress.currentChallengeId);
             }
         }
-
-        if (!currentEntry && sorted.length > 0 && sorted[0].date > today) {
-            nextEntry = sorted[0];
+        var picked = pickRandomChallenge();
+        if (picked) {
+            progress.currentChallengeId = picked.id;
+            saveProgress();
         }
+        return picked;
+    }
 
-        return {
-            current: currentEntry ? findItemById(currentEntry.challengeId) : null,
-            next: nextEntry ? findItemById(nextEntry.challengeId) : null
-        };
+    function skipChallenge() {
+        if (progress.currentChallengeId) {
+            if (progress.skippedItems.indexOf(progress.currentChallengeId) < 0) {
+                progress.skippedItems.push(progress.currentChallengeId);
+            }
+            progress.currentChallengeId = null;
+            saveProgress();
+        }
+        render();
     }
 
     function findItemById(id) {
@@ -117,6 +123,9 @@
             progress.completedItems.splice(idx, 1);
         } else {
             progress.completedItems.push(itemId);
+            if (progress.currentChallengeId === itemId) {
+                progress.currentChallengeId = null;
+            }
         }
         saveProgress();
         render();
@@ -283,6 +292,7 @@
                 '<span class="category-badge">' + escHtml(challenge.category) + '</span>' +
                 (challenge.bonus ? '<span class="bonus-badge">Bonus</span>' : '') +
                 '<h2 class="challenge-title">' + escHtml(challenge.title) + '</h2>' +
+                (challenge.description ? '<p class="challenge-description">' + escHtml(challenge.description) + '</p>' : '') +
                 (challenge.hint ? '<p class="challenge-hint">' + linkifyHint(challenge.hint) + '</p>' : '') +
                 (photo ? '<div class="photo-preview"><img src="' + photo + '" alt="Your photo"></div>' : '') +
                 '<div class="challenge-actions">' +
@@ -310,25 +320,23 @@
         const container = document.getElementById('today-content');
         if (!container) return;
 
-        const { current, next } = getScheduledChallenges();
+        const challenge = getCurrentChallenge();
 
-        if (!current && !next) {
-            container.innerHTML = '<p class="text-muted">No challenge scheduled yet. Check back soon!</p>';
+        if (!challenge) {
+            var stats = getCompletionStats();
+            container.innerHTML = '<div class="challenge-card completed">' +
+                '<h2 class="challenge-title">All Done!</h2>' +
+                '<p class="challenge-hint">You\'ve completed all ' + stats.total + ' challenges. Amazing work!</p>' +
+            '</div>';
             return;
         }
 
-        var html = '';
-
-        if (current) {
-            var currentDone = progress.completedItems.indexOf(current.id) >= 0;
-            html += renderChallengeCard(current, "Today's Challenge");
-
-            if (currentDone && next) {
-                html += renderChallengeCard(next, 'Up Next');
-            }
-        } else if (next) {
-            html += renderChallengeCard(next, 'Up Next');
-        }
+        var html = renderChallengeCard(challenge, 'Your Challenge');
+        html += '<div class="skip-section">' +
+            '<button class="btn btn-skip" id="btn-skip" data-item="' + challenge.id + '">' +
+                '<i class="fas fa-forward"></i> Skip for Now' +
+            '</button>' +
+        '</div>';
 
         container.innerHTML = html;
     }
@@ -362,6 +370,7 @@
                         '<span class="checklist-item-title">' + escHtml(item.title) + '</span>' +
                         (item.bonus ? '<span class="bonus-badge-sm">Bonus</span>' : '') +
                     '</div>' +
+                    (item.description ? '<p class="checklist-description">' + escHtml(item.description) + '</p>' : '') +
                     (item.hint ? '<p class="checklist-hint">' + linkifyHint(item.hint) + '</p>' : '') +
                     (photo ? '<div class="photo-preview-sm"><img src="' + photo + '" alt="Your photo"></div>' : '') +
                     '<div class="checklist-item-actions">' +
@@ -426,6 +435,8 @@
                 handleShare(itemId);
             } else if (target.classList.contains('btn-complete') || target.classList.contains('btn-completed') || target.classList.contains('btn-check-toggle')) {
                 toggleComplete(itemId);
+            } else if (target.classList.contains('btn-skip')) {
+                skipChallenge();
             }
         });
 
@@ -439,7 +450,7 @@
         if (resetBtn) {
             resetBtn.addEventListener('click', function () {
                 if (confirm('Are you sure? This will erase all your progress and photos.')) {
-                    progress = { completedItems: [], photos: {} };
+                    progress = { completedItems: [], photos: {}, skippedItems: [], currentChallengeId: null };
                     saveProgress();
                     render();
                     showToast('Progress reset!');
@@ -451,9 +462,10 @@
     async function fetchChallenges() {
         try {
             const cacheBuster = Math.floor(Date.now() / (60 * 60 * 1000));
-            const resp = await fetch('data/challenges.json?v=' + cacheBuster);
+            const resp = await fetch('data/challenges.yaml?v=' + cacheBuster);
             if (resp.ok) {
-                challengeData = await resp.json();
+                const text = await resp.text();
+                challengeData = jsyaml.load(text);
                 render();
             }
         } catch (e) {

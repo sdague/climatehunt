@@ -1,0 +1,183 @@
+hashtag: "#climatehunt"
+shareMessage: "\n\nJoin the hunt at climatehunt.org"
+
+categories:
+  - name: Transportation
+    items:
+      - id: ev
+        title: An EV
+        description: Electric vehicles (EVs) are a key solution to reducing transportation emissions, which are the largest source of greenhouse gas emissions in the US. EVs produce zero tailpipe emissions and can be powered by renewable energy, making them a crucial part of the transition to a cleaner transportation system.
+        bonus: false
+      - id: non-tesla-ev
+        title: A Non-Tesla EV
+        description: While Tesla is the most well-known EV manufacturer, there are many other companies producing electric vehicles, including Ford, General Motors, Nissan, and Volkswagen. The growing variety of EVs on the market is making it easier for more people to switch to electric transportation.
+        hint: Check out local grocery store parking lots
+        bonus: false
+      - id: non-tesla-ev-2
+        title: A 2nd Non-Tesla EV
+        description: While Tesla is the most well-known EV manufacturer, there are many other companies producing electric vehicles, including Ford, General Motors, Nissan, and Volkswagen. The growing variety of EVs on the market is making it easier for more people to switch to electric transportation.
+        hint: Check out local grocery store parking lots
+        bonus: false
+      - id: bus
+        title: A Bus
+        description: Buses are a critical part of a sustainable transportation system, as they can move many people at once and reduce the number of individual cars on the road. Many bus systems are transitioning to electric or hybrid buses, which produce fewer emissions and improve air quality in communities.
+        hint: "Bus schedules per county - https://www.hudsonvalleysojourner.com/hudson-valley-bus-service-maps-schedule/"
+        bonus: false
+      - id: train
+        title: A Train
+        description: Trains are an efficient and low-emission mode of transportation, especially for long-distance travel. Many train systems are powered by electricity, which can be generated from renewable sources, making them a key part of a sustainable transportation network.
+        bonus: false
+      - id: e-bike
+        title: An E-Bike
+        description: E-bikes, or electric bicycles, are a popular and sustainable transportation option for short to medium distances. They provide the benefits of traditional biking while offering an electric assist that makes it easier to tackle hills and longer rides. E-bikes can help reduce car trips and promote active transportation.
+        hint: Check out the rail trails in the area - https://www.traillink.com/region/hudson-valley-trails/
+        bonus: false
+      - id: electric-delivery-vehicle
+        title: An Electric Delivery Vehicle
+        description: Electrification of heavy duty vehicles, including delivery trucks, is an important step in reducing emissions from the transportation sector. Many companies, including Amazon, UPS, and FedEx, are investing in electric delivery vehicles to reduce their carbon footprint and improve air quality in the communities they serve.
+        hint: Amazon is sending these out from Newburgh now
+        bonus: true
+
+  - name: Infrastructure
+    items:
+      - id: level-2-charger
+        title: A Level 2 Car Charger
+        description: Level 2 chargers are a common type of electric vehicle charging station that can be found in public places like parking lots, shopping centers, and workplaces. They provide a faster charging option than standard Level 1 chargers, making them a convenient choice for EV owners who need to charge their vehicles while away from home.
+        bonus: false
+      - id: tesla-fast-charger
+        title: A Tesla Fast Charger
+        description: Tesla's Supercharger network is a proprietary fast-charging system designed specifically for Tesla vehicles. These chargers can provide a significant charge in a short amount of time, making long-distance travel more feasible for Tesla owners. The Supercharger network is expanding rapidly, with stations located across the country and around the world.
+        bonus: false
+      - id: non-tesla-fast-charger
+        title: A Non-Tesla Fast Charger
+        description: There are several non-Tesla fast charging networks, such as Electrify America, ChargePoint, and EVgo, that provide fast charging options for a wide range of electric vehicles. These chargers are typically compatible with multiple EV brands and can be found in various locations, including highways, shopping centers, and urban areas.
+        hint: "Check out Plugshare - https://www.plugshare.com/"
+        bonus: false
+      - id: protected-bike-lane
+        title: A Protected Bike Lane / Path
+        description: Protected bike lanes and paths provide a safe and dedicated space for cyclists, encouraging more people to choose biking as a sustainable transportation option. These infrastructure improvements can significantly reduce traffic congestion and improve air quality in urban areas.
+        bonus: false
+      - id: led-street-lights
+        title: LED Street Lights
+        description: LED street lights are a more energy-efficient and longer-lasting alternative to traditional street lighting. They can significantly reduce energy consumption and maintenance costs for municipalities while improving visibility and safety on the roads.
+        bonus: false
+      - id: dense-walkable-neighborhood
+        title: Dense Walkable Neighborhood
+        description: Dense, walkable neighborhoods are designed to prioritize pedestrians and reduce the need for car travel. These areas typically feature a mix of residential, commercial, and recreational spaces within close proximity, making it easier for residents to walk or bike to their destinations and reducing overall transportation emissions.
+        bonus: true
+
+  - name: Energy
+    items:
+      - id: rooftop-solar
+        title: Rooftop Solar on a House
+        description: Rooftop solar panels allow homeowners to generate their own electricity from the sun, reducing their reliance on fossil fuels and lowering their carbon footprint. Solar energy is a clean and renewable resource that can help combat climate change while also providing financial savings on energy bills.
+        bonus: false
+      - id: home-battery-backup
+        title: Home Battery Backup
+        bonus: false
+      - id: solar-farm
+        title: Solar Farm
+        description: Solar farms, especially those built on previously developed land or in areas with low ecological value, can generate large amounts of clean energy without significant environmental impacts. They play a crucial role in the transition to renewable energy and can help reduce greenhouse gas emissions on a larger scale.
+        hint: "Energy Infrastructure in the US - https://atlas.eia.gov/apps/eia::all-energy-infrastructure-and-resources/explore"
+        bonus: false
+      - id: transmission-345kv
+        title: Transmission - 345kV Power Lines
+        description: High-voltage transmission lines are a critical part of the electrical grid, allowing electricity generated from renewable sources to be transported over long distances to where it's needed. Upgrading and expanding transmission infrastructure is essential for integrating more renewable energy into the grid and reducing reliance on fossil fuels.
+        hint: "ArcGIS transmission map - https://hub.arcgis.com/datasets/fedmaps::u-s-electric-power-transmission-lines/explore"
+        bonus: false
+      - id: transmission-115kv
+        title: Transmission - 115kV Power Lines
+        description: High-voltage transmission lines are a critical part of the electrical grid, allowing electricity generated from renewable sources to be transported over long distances to where it's needed. Upgrading and expanding transmission infrastructure is essential for integrating more renewable energy into the grid and reducing reliance on fossil fuels.
+        hint: "ArcGIS transmission map - https://hub.arcgis.com/datasets/fedmaps::u-s-electric-power-transmission-lines/explore"
+        bonus: false
+      - id: electric-substation
+        title: Electric Substation
+        description: Electric substations are key components of the electrical grid, responsible for transforming voltage levels and distributing electricity to homes and businesses. Modernizing substations can improve grid reliability and efficiency, while also facilitating the integration of renewable energy sources.
+        bonus: false
+      - id: micro-wind-turbine
+        title: Micro Wind Turbine
+        description: Micro wind turbines are small-scale wind energy systems that can be installed on residential or commercial properties. They provide a renewable source of electricity and can help reduce reliance on the grid, especially when combined with other renewable energy sources like solar panels.
+        bonus: true
+      - id: hydro-dam
+        title: Hydro Dam
+        description: Hydroelectric dams generate electricity by harnessing the energy of flowing water. Effectively turning gravity into clean energy!
+        hint: Wappingers Falls has a hydro dam
+        bonus: true
+
+  - name: Home Goods
+    items:
+      - id: induction-stove
+        title: Induction / Electric Stove
+        description: Induction and electric stoves are more energy-efficient and produce fewer emissions than traditional gas stoves. They can help reduce indoor air pollution and lower greenhouse gas emissions from cooking.
+        hint: "Don't have these items in your home? Take a trip to a hardware store!"
+        bonus: false
+      - id: mini-split-heat-pump
+        title: Mini-split Heat Pump
+        description: Mini-split heat pumps are an energy-efficient alternative to traditional heating and cooling systems. They can provide both heating and cooling, making them a versatile solution for maintaining comfortable indoor temperatures while reducing energy consumption and emissions.
+        hint: "Don't have these items in your home? Take a trip to a hardware store!"
+        bonus: false
+      - id: electric-yard-equipment
+        title: Electric Yard Equipment
+        description: Electric yard equipment, such as lawn mowers and leaf blowers, can help reduce emissions and noise pollution compared to their gas-powered counterparts.
+        hint: "Don't have these items in your home? Take a trip to a hardware store!"
+        bonus: false
+      - id: electric-grill
+        title: Electric Grill
+        hint: "Don't have these items in your home? Take a trip to a hardware store!"
+        bonus: false
+      - id: home-composter
+        title: Home Composter
+        hint: "Don't have these items in your home? Take a trip to a hardware store!"
+        bonus: false
+      - id: heat-pump-water-heater
+        title: Heat Pump Hot Water Heater
+        bonus: true
+      - id: heat-pump-dryer
+        title: Heat Pump Clothes Dryer
+        bonus: true
+
+  - name: Political
+    items:
+      - id: state-senator-office
+        title: "Your State Senator or Assembly Member's District Office"
+        hint: "https://www.nysenate.gov/ to find your Senator"
+        bonus: false
+      - id: congress-office
+        title: "Your Member of Congress's District Office"
+        hint: "https://www.congress.gov/ to find your member of Congress"
+        bonus: false
+
+  - name: Take Actions
+    items:
+      - id: selfie-riding-bus
+        title: Selfie of You Riding on a Bus
+        hint: "There are some free bus loops in the area - https://dutchesstourism.com/listingsv/city-of-beacon-free-loop-bus"
+        bonus: false
+      - id: screenshot-sharing-hunt
+        title: Screenshot of You Sharing the Scavenger Hunt on Social Media
+        bonus: false
+      - id: screenshot-email-congress
+        title: Screenshot of You Writing an Email to Congress on Climate Solutions
+        hint: "https://citizensclimatelobby.org/get-loud-take-action/permitting-reform/"
+        bonus: false
+      - id: selfie-climate-program
+        title: Selfie of You Attending a Hudson Valley Climate Solutions Week Program
+        bonus: false
+      - id: selfie-elected-leader
+        title: Selfie of You with a Local, State, or Federal Elected Leader from NY
+        bonus: true
+
+  - name: Bonus
+    items:
+      - id: custom-solution-1
+        title: A Climate Solution Not Listed Here
+        hint: "Find something we missed! There are climate solutions everywhere."
+        bonus: true
+      - id: custom-solution-2
+        title: Another Climate Solution Not Listed Here
+        hint: "Find something we missed! There are climate solutions everywhere."
+        bonus: true
+      - id: custom-solution-3
+        title: A Third Climate Solution Not Listed Here
+        hint: "Find something we missed! There are climate solutions everywhere."
+        bonus: true
