@@ -225,7 +225,12 @@ body {
     color: var(--ch-dark);
 }
 
-.btn-share:hover { background: #d4a506; }
+.btn-share:hover:not(:disabled) { background: #d4a506; }
+
+.btn-share:disabled, .btn-sm:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
 
 .btn-complete {
     background: #e9ecef;

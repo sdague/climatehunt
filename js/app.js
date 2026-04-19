@@ -171,12 +171,19 @@
         input.click();
     }
 
+    function buildShareText(item) {
+        var hashtag = (challengeData && challengeData.hashtag) || '#climatehunt';
+        var message = (challengeData && challengeData.shareMessage) ||
+            'Join the hunt at climatehunt.org';
+        return 'I found "' + item.title + '" in the Climate Solutions Hunt! ' +
+            message + ' ' + hashtag;
+    }
+
     async function handleShare(itemId) {
         const item = findItemById(itemId);
         if (!item) return;
 
-        const text = challengeData.shareMessage ||
-            'I spotted a climate solution! Join the hunt at climatehunt.org #climatehunt';
+        const text = buildShareText(item);
 
         if (progress.photos[itemId]) {
             try {
@@ -190,6 +197,7 @@
 
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
+                        title: item.title + ' — Climate Solutions Hunt',
                         text: text,
                         files: [file]
                     });
@@ -202,7 +210,10 @@
 
         if (navigator.share) {
             try {
-                await navigator.share({ text: text });
+                await navigator.share({
+                    title: item.title + ' — Climate Solutions Hunt',
+                    text: text
+                });
                 return;
             } catch (e) {
                 if (e.name === 'AbortError') return;
@@ -250,7 +261,7 @@
                     '<button class="btn btn-camera" data-item="' + challenge.id + '">' +
                         '<i class="fas fa-camera"></i> Take Photo' +
                     '</button>' +
-                    '<button class="btn btn-share" data-item="' + challenge.id + '">' +
+                    '<button class="btn btn-share" data-item="' + challenge.id + '"' + (photo ? '' : ' disabled') + '>' +
                         '<i class="fas fa-share-nodes"></i> Share' +
                     '</button>' +
                     '<button class="btn ' + (isComplete ? 'btn-completed' : 'btn-complete') + '" data-item="' + challenge.id + '">' +
@@ -323,7 +334,7 @@
                         '<button class="btn-sm btn-camera-sm" data-item="' + item.id + '">' +
                             '<i class="fas fa-camera"></i>' +
                         '</button>' +
-                        '<button class="btn-sm btn-share-sm" data-item="' + item.id + '">' +
+                        '<button class="btn-sm btn-share-sm" data-item="' + item.id + '"' + (photo ? '' : ' disabled') + '>' +
                             '<i class="fas fa-share-nodes"></i>' +
                         '</button>' +
                     '</div>' +
@@ -362,6 +373,8 @@
             if (!target) return;
 
             const itemId = target.dataset.item;
+
+            if (target.disabled) return;
 
             if (target.classList.contains('btn-camera') || target.classList.contains('btn-camera-sm')) {
                 handlePhoto(itemId);
