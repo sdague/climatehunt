@@ -176,8 +176,8 @@
     function buildShareText(item) {
         var hashtag = (challengeData && challengeData.hashtag) || '#climatehunt';
         var message = (challengeData && challengeData.shareMessage) ||
-            'Join the hunt at climatehunt.org';
-        return 'I found "' + item.title + '" in the Climate Solutions Hunt! ' +
+            '\n\nJoin the hunt at climatehunt.org';
+        return 'I found "' + item.title + '" in the Climate Solutions Scavenger Hunt! ' +
             message + ' ' + hashtag;
     }
 
