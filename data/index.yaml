@@ -5,3 +5,9 @@ hunts:
       Find climate solutions in the Hudson Valley region of New York.
       Created for Hudson Valley Climate Solutions Week.
     file: hudson-valley.yaml
+  - id: vassar-campus
+    name: "Vassar Campus Climate Hunt"
+    description: >
+      Discover climate solutions while walking around Vassar College's campus
+      in Poughkeepsie, NY.
+    file: vassar-campus.yaml

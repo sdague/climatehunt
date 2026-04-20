@@ -1,0 +1,118 @@
+hashtag: "#climatehunt"
+shareMessage: "\n\nJoin the hunt at climatehunt.org"
+
+categories:
+  - name: Energy
+    items:
+      - id: solar-panels
+        title: Solar Panels on a Campus Building
+        description: >
+          Solar panels convert sunlight directly into electricity with zero emissions. Seeing them
+          on campus buildings shows the institution's commitment to clean energy and reduces the
+          campus's reliance on fossil fuel powered grid electricity.
+        bonus: false
+      - id: geothermal
+        title: Geothermal Heating/Cooling Signage
+        description: >
+          Geothermal systems use the stable temperature of the earth to heat and cool buildings,
+          dramatically reducing energy use compared to conventional HVAC. Look for signage or
+          informational plaques near buildings that use this technology.
+        bonus: false
+      - id: leed-building
+        title: A LEED-Certified Building
+        description: >
+          LEED (Leadership in Energy and Environmental Design) certified buildings meet rigorous
+          standards for energy efficiency, water conservation, and reduced emissions. Look for the
+          official LEED plaque near building entrances.
+        hint: Look near main entrances for the certification plaque
+        bonus: false
+      - id: led-lighting
+        title: LED Lighting in a Campus Building
+        description: >
+          LED lights use up to 75% less energy than traditional incandescent bulbs and last much
+          longer. Widespread adoption of LED lighting is one of the simplest and most impactful
+          energy efficiency measures a campus can take.
+        bonus: false
+      - id: mini-split-heat-pump
+        title: Mini-Split Heat Pump
+        description: >
+          Mini-split heat pumps are an energy-efficient alternative to traditional heating and
+          cooling systems. They can provide both heating and cooling, making them a versatile
+          solution for maintaining comfortable indoor temperatures while reducing energy
+          consumption and emissions. Look for the rectangular units mounted on exterior walls.
+        bonus: false
+
+  - name: Transportation
+    items:
+      - id: ev-charger
+        title: EV Charging Station on Campus
+        description: >
+          EV charging stations on campus support the transition to electric transportation by
+          making it practical for students, faculty, and staff to drive electric vehicles. Each
+          EV mile driven eliminates tailpipe emissions entirely.
+        bonus: false
+      - id: ev
+        title: An Electric Vehicle
+        description: >
+          Electric vehicles produce zero tailpipe emissions and can be powered by renewable
+          energy. Spotting EVs on campus shows that the transition to clean transportation is
+          already underway in everyday life.
+        bonus: false
+      - id: bike-rack
+        title: A Bike Rack
+        description: >
+          Bike infrastructure encourages cycling as a zero-emission transportation option. Every
+          bike trip that replaces a car trip eliminates greenhouse gas emissions entirely while
+          also reducing traffic congestion and improving air quality.
+        bonus: false
+
+  - name: Infrastructure
+    items:
+      - id: water-refill
+        title: A Water Bottle Refill Station
+        description: >
+          Water bottle refill stations reduce the demand for single-use plastic bottles, which
+          have a significant carbon footprint from manufacturing, transportation, and disposal.
+          Each refill avoids the emissions embedded in producing a new plastic bottle.
+        bonus: false
+      - id: permeable-pavement
+        title: Permeable Pavement
+        description: >
+          Permeable pavement allows rainwater to filter through the surface into the ground
+          below, reducing stormwater runoff and recharging groundwater. This reduces the energy
+          needed for stormwater treatment and helps prevent flooding.
+        hint: Look for pavement with a different texture in parking areas and walkways
+        bonus: false
+      - id: rain-garden
+        title: A Rain Garden or Bioswale
+        description: >
+          Rain gardens and bioswales are landscaped areas designed to capture and filter
+          stormwater runoff naturally. They reduce the energy-intensive burden on municipal
+          stormwater systems and help recharge local groundwater supplies.
+        bonus: false
+
+  - name: Food & Land
+    items:
+      - id: composting-station
+        title: A Composting Station
+        description: >
+          Composting diverts organic waste from landfills where it would decompose anaerobically
+          and produce methane, a greenhouse gas over 80 times more potent than CO2 in the short
+          term. Composting instead creates useful soil amendment with far lower emissions.
+        bonus: false
+      - id: vassar-farm
+        title: The Vassar Farm
+        description: >
+          Campus farms dramatically shorten the distance food travels from field to plate,
+          cutting transportation emissions. Local sustainable agriculture also builds soil
+          health, which sequesters carbon and reduces the need for energy-intensive synthetic
+          fertilizers.
+        hint: Located on Raymond Avenue south of the main campus
+        bonus: false
+
+  - name: Bonus
+    items:
+      - id: custom-solution
+        title: A Climate Solution Not Listed Here
+        hint: "Find something we missed! There are climate solutions everywhere on campus."
+        bonus: true
