@@ -305,9 +305,9 @@
                     '<button class="btn btn-share" data-item="' + challenge.id + '">' +
                         '<i class="fas fa-share-nodes"></i> Share' +
                     '</button>' +
-                    '<button class="btn btn-save" data-item="' + challenge.id + '"' + (photo ? '' : ' disabled') + '>' +
+                    (isFirefox() ? '<button class="btn btn-save" data-item="' + challenge.id + '"' + (photo ? '' : ' disabled') + '>' +
                         '<i class="fas fa-download"></i> Save' +
-                    '</button>' +
+                    '</button>' : '') +
                     '<button class="btn ' + (isComplete ? 'btn-completed' : 'btn-complete') + '" data-item="' + challenge.id + '">' +
                         '<i class="fas ' + (isComplete ? 'fa-check-circle' : 'fa-circle') + '"></i> ' +
                         (isComplete ? 'Done!' : 'Mark Complete') +
@@ -383,9 +383,9 @@
                         '<button class="btn-sm btn-share-sm" data-item="' + item.id + '">' +
                             '<i class="fas fa-share-nodes"></i>' +
                         '</button>' +
-                        '<button class="btn-sm btn-save-sm" data-item="' + item.id + '"' + (photo ? '' : ' disabled') + '>' +
+                        (isFirefox() ? '<button class="btn-sm btn-save-sm" data-item="' + item.id + '"' + (photo ? '' : ' disabled') + '>' +
                             '<i class="fas fa-download"></i>' +
-                        '</button>' +
+                        '</button>' : '') +
                     '</div>' +
                 '</div>';
             }
@@ -471,6 +471,10 @@
         } catch (e) {
             console.error('Failed to load challenges:', e);
         }
+    }
+
+    function isFirefox() {
+        return /Firefox/.test(navigator.userAgent);
     }
 
     function isChromeMobile() {
