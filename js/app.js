@@ -1,21 +1,38 @@
 (function () {
     'use strict';
 
-    const STORAGE_KEY = 'climatehunt-progress';
-    const REFRESH_INTERVAL = 30 * 60 * 1000;
-    const MAX_THUMB_DIM = 800;
-    const MAX_SHARE_DIM = 1200;
+    var HUNT_KEY = 'climatehunt-selected-hunt';
+    var REFRESH_INTERVAL = 30 * 60 * 1000;
+    var MAX_THUMB_DIM = 800;
+    var MAX_SHARE_DIM = 1200;
 
-    let challengeData = null;
-    let progress = loadProgress();
-    let currentTab = 'today';
-    const photoBlobs = {};
+    var huntIndex = null;
+    var currentHuntId = null;
+    var challengeData = null;
+    var progress = null;
+    var currentTab = 'today';
+    var photoBlobs = {};
+
+    function storageKey() {
+        return 'climatehunt-progress-' + currentHuntId;
+    }
+
+    function migrateOldProgress() {
+        var old = localStorage.getItem('climatehunt-progress');
+        if (!old) return;
+        var newKey = 'climatehunt-progress-hudson-valley';
+        if (!localStorage.getItem(newKey)) {
+            localStorage.setItem(newKey, old);
+        }
+        localStorage.removeItem('climatehunt-progress');
+    }
 
     function loadProgress() {
+        if (!currentHuntId) return { completedItems: [], photos: {}, skippedItems: [], currentChallengeId: null };
         try {
-            const raw = localStorage.getItem(STORAGE_KEY);
+            var raw = localStorage.getItem(storageKey());
             if (raw) {
-                const parsed = JSON.parse(raw);
+                var parsed = JSON.parse(raw);
                 return {
                     completedItems: parsed.completedItems || [],
                     photos: parsed.photos || {},
@@ -28,11 +45,12 @@
     }
 
     function saveProgress() {
+        if (!currentHuntId) return;
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            localStorage.setItem(storageKey(), JSON.stringify(progress));
         } catch (e) {
             if (e.name === 'QuotaExceededError') {
-                const oldest = Object.keys(progress.photos)[0];
+                var oldest = Object.keys(progress.photos)[0];
                 if (oldest) {
                     delete progress.photos[oldest];
                     saveProgress();
@@ -89,10 +107,12 @@
 
     function findItemById(id) {
         if (!challengeData) return null;
-        for (const cat of challengeData.categories) {
-            for (const item of cat.items) {
+        for (var c = 0; c < challengeData.categories.length; c++) {
+            var cat = challengeData.categories[c];
+            for (var i = 0; i < cat.items.length; i++) {
+                var item = cat.items[i];
                 if (item.id === id) {
-                    return { ...item, category: cat.name };
+                    return { id: item.id, title: item.title, description: item.description, hint: item.hint, bonus: item.bonus, category: cat.name };
                 }
             }
         }
@@ -101,24 +121,26 @@
 
     function getAllItems() {
         if (!challengeData) return [];
-        const items = [];
-        for (const cat of challengeData.categories) {
-            for (const item of cat.items) {
-                items.push({ ...item, category: cat.name });
+        var items = [];
+        for (var c = 0; c < challengeData.categories.length; c++) {
+            var cat = challengeData.categories[c];
+            for (var i = 0; i < cat.items.length; i++) {
+                var item = cat.items[i];
+                items.push({ id: item.id, title: item.title, description: item.description, hint: item.hint, bonus: item.bonus, category: cat.name });
             }
         }
         return items;
     }
 
     function getCompletionStats() {
-        const all = getAllItems();
-        const total = all.length;
-        const completed = progress.completedItems.length;
-        return { total, completed, percent: total ? Math.round((completed / total) * 100) : 0 };
+        var all = getAllItems();
+        var total = all.length;
+        var completed = progress.completedItems.length;
+        return { total: total, completed: completed, percent: total ? Math.round((completed / total) * 100) : 0 };
     }
 
     function toggleComplete(itemId) {
-        const idx = progress.completedItems.indexOf(itemId);
+        var idx = progress.completedItems.indexOf(itemId);
         if (idx >= 0) {
             progress.completedItems.splice(idx, 1);
         } else {
@@ -133,12 +155,12 @@
 
     function resizeImage(file, maxDim) {
         return new Promise(function (resolve) {
-            const reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = function (e) {
-                const img = new Image();
+                var img = new Image();
                 img.onload = function () {
-                    let w = img.width;
-                    let h = img.height;
+                    var w = img.width;
+                    var h = img.height;
                     if (w > maxDim || h > maxDim) {
                         if (w > h) {
                             h = Math.round(h * maxDim / w);
@@ -148,7 +170,7 @@
                             h = maxDim;
                         }
                     }
-                    const canvas = document.createElement('canvas');
+                    var canvas = document.createElement('canvas');
                     canvas.width = w;
                     canvas.height = h;
                     canvas.getContext('2d').drawImage(img, 0, 0, w, h);
@@ -164,8 +186,8 @@
 
     function processPhoto(itemId, file) {
         return async function () {
-            const shareSize = await resizeImage(file, MAX_SHARE_DIM);
-            const thumb = await resizeImage(file, MAX_THUMB_DIM);
+            var shareSize = await resizeImage(file, MAX_SHARE_DIM);
+            var thumb = await resizeImage(file, MAX_THUMB_DIM);
             photoBlobs[itemId] = shareSize.blob;
             progress.photos[itemId] = thumb.dataUrl;
             if (progress.completedItems.indexOf(itemId) < 0) {
@@ -177,7 +199,7 @@
     }
 
     function handleCamera(itemId) {
-        const input = document.createElement('input');
+        var input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
         input.capture = 'environment';
@@ -189,7 +211,7 @@
     }
 
     function handleGallery(itemId) {
-        const input = document.createElement('input');
+        var input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
         input.onchange = async function () {
@@ -235,10 +257,10 @@
     }
 
     async function handleShare(itemId) {
-        const item = findItemById(itemId);
+        var item = findItemById(itemId);
         if (!item) return;
 
-        const text = buildShareText(item);
+        var text = buildShareText(item);
 
         if (navigator.share) {
             var shareData = { text: text };
@@ -266,7 +288,7 @@
     }
 
     function showToast(message) {
-        let toast = document.getElementById('app-toast');
+        var toast = document.getElementById('app-toast');
         if (!toast) {
             toast = document.createElement('div');
             toast.id = 'app-toast';
@@ -283,9 +305,78 @@
         return hint.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
     }
 
+    function escHtml(str) {
+        var d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+    }
+
+    function isFirefox() {
+        return /Firefox/.test(navigator.userAgent);
+    }
+
+    function isChromeMobile() {
+        var ua = navigator.userAgent;
+        return /Android/.test(ua) && /Chrome\//.test(ua) && !/Firefox/.test(ua);
+    }
+
+    // --- Hunt Picker ---
+
+    function findHuntById(id) {
+        if (!huntIndex || !huntIndex.hunts) return null;
+        for (var i = 0; i < huntIndex.hunts.length; i++) {
+            if (huntIndex.hunts[i].id === id) return huntIndex.hunts[i];
+        }
+        return null;
+    }
+
+    function selectHunt(huntId) {
+        currentHuntId = huntId;
+        localStorage.setItem(HUNT_KEY, huntId);
+        progress = loadProgress();
+        photoBlobs = {};
+        fetchChallenges();
+    }
+
+    function renderHuntPicker() {
+        var container = document.getElementById('today-content');
+        if (!container || !huntIndex) return;
+
+        var html = '<div class="hunt-picker">' +
+            '<h2 style="text-align:center; color:var(--ch-primary); margin-bottom:1rem;">Choose a Hunt</h2>';
+
+        for (var i = 0; i < huntIndex.hunts.length; i++) {
+            var hunt = huntIndex.hunts[i];
+            html += '<div class="hunt-card" data-hunt="' + escHtml(hunt.id) + '">' +
+                '<h3 class="hunt-card-title">' + escHtml(hunt.name) + '</h3>' +
+                (hunt.description ? '<p class="hunt-card-desc">' + escHtml(hunt.description) + '</p>' : '') +
+            '</div>';
+        }
+
+        html += '</div>';
+        container.innerHTML = html;
+
+        var checklistContainer = document.getElementById('checklist-content');
+        if (checklistContainer) {
+            checklistContainer.innerHTML = '<p style="text-align:center; color:#6c757d;">Select a hunt to see challenges.</p>';
+        }
+    }
+
+    function switchHunt() {
+        currentHuntId = null;
+        challengeData = null;
+        progress = null;
+        photoBlobs = {};
+        localStorage.removeItem(HUNT_KEY);
+        renderHuntPicker();
+        switchTab('today');
+    }
+
+    // --- Rendering ---
+
     function renderChallengeCard(challenge, label) {
-        const isComplete = progress.completedItems.indexOf(challenge.id) >= 0;
-        const photo = progress.photos[challenge.id];
+        var isComplete = progress.completedItems.indexOf(challenge.id) >= 0;
+        var photo = progress.photos[challenge.id];
 
         return (label ? '<p class="challenge-label">' + escHtml(label) + '</p>' : '') +
             '<div class="challenge-card' + (isComplete ? ' completed' : '') + '">' +
@@ -317,10 +408,15 @@
     }
 
     function renderTodayChallenge() {
-        const container = document.getElementById('today-content');
+        var container = document.getElementById('today-content');
         if (!container) return;
 
-        const challenge = getCurrentChallenge();
+        if (!currentHuntId || !challengeData) {
+            renderHuntPicker();
+            return;
+        }
+
+        var challenge = getCurrentChallenge();
 
         if (!challenge) {
             var stats = getCompletionStats();
@@ -342,11 +438,11 @@
     }
 
     function renderChecklist() {
-        const container = document.getElementById('checklist-content');
+        var container = document.getElementById('checklist-content');
         if (!container || !challengeData) return;
 
-        const stats = getCompletionStats();
-        let html =
+        var stats = getCompletionStats();
+        var html =
             '<div class="progress-section">' +
                 '<div class="progress-bar-wrap">' +
                     '<div class="progress-bar-fill" style="width:' + stats.percent + '%"></div>' +
@@ -354,13 +450,15 @@
                 '<p class="progress-text">' + stats.completed + ' / ' + stats.total + ' found (' + stats.percent + '%)</p>' +
             '</div>';
 
-        for (const cat of challengeData.categories) {
+        for (var c = 0; c < challengeData.categories.length; c++) {
+            var cat = challengeData.categories[c];
             html += '<div class="checklist-category">' +
                 '<h3 class="category-heading">' + escHtml(cat.name) + '</h3>';
 
-            for (const item of cat.items) {
-                const isComplete = progress.completedItems.indexOf(item.id) >= 0;
-                const photo = progress.photos[item.id];
+            for (var i = 0; i < cat.items.length; i++) {
+                var item = cat.items[i];
+                var isComplete = progress.completedItems.indexOf(item.id) >= 0;
+                var photo = progress.photos[item.id];
 
                 html += '<div class="checklist-item' + (isComplete ? ' completed' : '') + '">' +
                     '<div class="checklist-item-header">' +
@@ -395,12 +493,6 @@
         container.innerHTML = html;
     }
 
-    function escHtml(str) {
-        const d = document.createElement('div');
-        d.textContent = str;
-        return d.innerHTML;
-    }
-
     function render() {
         renderTodayChallenge();
         renderChecklist();
@@ -418,10 +510,16 @@
 
     function setupEventDelegation() {
         document.addEventListener('click', function (e) {
-            const target = e.target.closest('[data-item]');
+            var huntCard = e.target.closest('[data-hunt]');
+            if (huntCard) {
+                selectHunt(huntCard.dataset.hunt);
+                return;
+            }
+
+            var target = e.target.closest('[data-item]');
             if (!target) return;
 
-            const itemId = target.dataset.item;
+            var itemId = target.dataset.item;
 
             if (target.disabled) return;
 
@@ -457,14 +555,24 @@
                 }
             });
         }
+
+        var switchHuntBtn = document.getElementById('btn-switch-hunt');
+        if (switchHuntBtn) {
+            switchHuntBtn.addEventListener('click', function () {
+                switchHunt();
+            });
+        }
     }
 
     async function fetchChallenges() {
+        if (!currentHuntId) return;
+        var hunt = findHuntById(currentHuntId);
+        if (!hunt) return;
         try {
-            const cacheBuster = Math.floor(Date.now() / (60 * 60 * 1000));
-            const resp = await fetch('data/challenges.yaml?v=' + cacheBuster);
+            var cacheBuster = Math.floor(Date.now() / (60 * 60 * 1000));
+            var resp = await fetch('data/' + hunt.file + '?v=' + cacheBuster);
             if (resp.ok) {
-                const text = await resp.text();
+                var text = await resp.text();
                 challengeData = jsyaml.load(text);
                 render();
             }
@@ -473,13 +581,41 @@
         }
     }
 
-    function isFirefox() {
-        return /Firefox/.test(navigator.userAgent);
+    async function fetchIndex() {
+        try {
+            var cacheBuster = Math.floor(Date.now() / (60 * 60 * 1000));
+            var resp = await fetch('data/index.yaml?v=' + cacheBuster);
+            if (resp.ok) {
+                var text = await resp.text();
+                huntIndex = jsyaml.load(text);
+            }
+        } catch (e) {
+            console.error('Failed to load hunt index:', e);
+        }
     }
 
-    function isChromeMobile() {
-        var ua = navigator.userAgent;
-        return /Android/.test(ua) && /Chrome\//.test(ua) && !/Firefox/.test(ua);
+    function resolveHunt() {
+        if (!huntIndex || !huntIndex.hunts || huntIndex.hunts.length === 0) return;
+
+        var params = new URLSearchParams(window.location.search);
+        var huntParam = params.get('hunt');
+        if (huntParam && findHuntById(huntParam)) {
+            selectHunt(huntParam);
+            return;
+        }
+
+        var saved = localStorage.getItem(HUNT_KEY);
+        if (saved && findHuntById(saved)) {
+            selectHunt(saved);
+            return;
+        }
+
+        if (huntIndex.hunts.length === 1) {
+            selectHunt(huntIndex.hunts[0].id);
+            return;
+        }
+
+        renderHuntPicker();
     }
 
     function showBrowserWarning() {
@@ -517,10 +653,12 @@
         });
     }
 
-    function init() {
+    async function init() {
+        migrateOldProgress();
         setupEventDelegation();
-        fetchChallenges();
         showBrowserWarning();
+        await fetchIndex();
+        resolveHunt();
         setInterval(fetchChallenges, REFRESH_INTERVAL);
 
         if ('serviceWorker' in navigator) {

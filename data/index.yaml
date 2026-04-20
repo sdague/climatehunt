@@ -1,0 +1,7 @@
+hunts:
+  - id: hudson-valley
+    name: "Hudson Valley Climate Hunt"
+    description: >
+      Find climate solutions in the Hudson Valley region of New York.
+      Created for Hudson Valley Climate Solutions Week.
+    file: hudson-valley.yaml
