@@ -190,9 +190,6 @@
             var thumb = await resizeImage(file, MAX_THUMB_DIM);
             photoBlobs[itemId] = shareSize.blob;
             progress.photos[itemId] = thumb.dataUrl;
-            if (progress.completedItems.indexOf(itemId) < 0) {
-                progress.completedItems.push(itemId);
-            }
             saveProgress();
             render();
         };
